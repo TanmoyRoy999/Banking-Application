@@ -10,7 +10,7 @@ public class Main {
         int choice=0;
         AccountDirectory accountDirectory = new AccountDirectory();
 
-        while (choice!=9) {
+        while (choice!=10) {
 
             System.out.println("--Menu--");
             System.out.println("1: Create account");
@@ -21,7 +21,8 @@ public class Main {
             System.out.println("6: Withdraw money");
             System.out.println("7: Transfer money");
             System.out.println("8: Delete account");
-            System.out.println("9: Exit");
+            System.out.println("9: View accounts with highest transaction values (sorted by ascending account no if transaction value is same)");
+            System.out.println("10: Exit");
             System.out.print("Enter your choice: ");
 
             try {
@@ -84,6 +85,11 @@ public class Main {
                     accountDirectory.deleteAccount(accountNumber);
                 }
                 case 9 -> {
+                    System.out.print("Enter no of accounts you want to view: ");
+                    int noOfAccountsToView = Integer.valueOf(sc.nextLine());
+                    accountDirectory.viewAccountsWithHighestTransactionValues(noOfAccountsToView);
+                }
+                case 10 -> {
                     break;
                 }
                 default -> {

@@ -5,8 +5,7 @@ import org.example.Accounts.HDFCBankAccount;
 import org.example.Accounts.SBIBankAccount;
 import org.example.Accounts.UBIBankAccount;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class AccountDirectory {
 
@@ -19,7 +18,7 @@ public class AccountDirectory {
 
     public BankAccount createAccount(String bankName, String accountHolderName, long openingBalance) {
 
-        String accountNo = bankName.substring(0,3).toUpperCase() + (10000000 + accountNoCounter);
+        String accountNo = bankName.substring(0, 3).toUpperCase() + (10000000 + accountNoCounter);
         BankAccount bankAccount;
 
         switch (bankName.toUpperCase()) {
@@ -92,9 +91,24 @@ public class AccountDirectory {
         BankAccount bankAccount = searchAccount(accountNo);
         if (bankAccount != null) {
             accounts.remove(accountNo);
-            System.out.println("Account number "+accountNo+" deleted!");
+            System.out.println("Account number " + accountNo + " deleted!");
         }
         return bankAccount;
+    }
+
+    public void viewAccountsWithHighestTransactionValues(int noOfAccountsToView) {
+        List<BankAccount> bankAccounts = new ArrayList<>();
+        for (BankAccount bankAccount : accounts.values())
+            bankAccounts.add(bankAccount);
+
+        Collections.sort(bankAccounts);
+        int i=(noOfAccountsToView> bankAccounts.size())? bankAccounts.size() : noOfAccountsToView;
+
+        System.out.println("Accounts with highest transaction values are:");
+        for (int j = 0; j < i; j++) {
+            System.out.println(bankAccounts.get(j));
+        }
+
     }
 
 }

@@ -7,6 +7,7 @@ public class HDFCBankAccount implements BankAccount {
     private String accountHolderName;
     private String accountNo;
     private long currentBalance;
+    private long totalTransactionValue;  // total amount of money transacted through deposit, withdraw or transfer
 
     public HDFCBankAccount(String accountHolderName, String accountNo, long openingBalance) {
         this.accountHolderName = accountHolderName;
@@ -16,6 +17,7 @@ public class HDFCBankAccount implements BankAccount {
             System.out.println("Opening balance less than min balance, hence opening balance set to min balance!");
         } else
             this.currentBalance = openingBalance;
+        totalTransactionValue = 0;
     }
 
     @Override
@@ -29,8 +31,14 @@ public class HDFCBankAccount implements BankAccount {
     }
 
     @Override
+    public long getTotalTransactionValue() {
+        return totalTransactionValue;
+    }
+
+    @Override
     public boolean deposit(long depositAmt) {
         this.currentBalance += depositAmt;
+        this.totalTransactionValue += depositAmt;
         System.out.println(depositAmt + " amount deposited in account no " + this.accountNo);
         return true;
     }
@@ -42,6 +50,7 @@ public class HDFCBankAccount implements BankAccount {
             return false;
         } else {
             this.currentBalance -= withdrawAmt;
+            this.totalTransactionValue += withdrawAmt;
             System.out.println(withdrawAmt + " amount withdrawn from account no " + this.accountNo);
             return true;
         }
@@ -62,6 +71,27 @@ public class HDFCBankAccount implements BankAccount {
                 "accountHolderName='" + accountHolderName + '\'' +
                 ", accountNo='" + accountNo + '\'' +
                 ", currentBalance=" + currentBalance +
+                ", totalTransactionValue=" + totalTransactionValue +
                 '}';
+    }
+
+    @Override
+    public int compareTo(BankAccount bankAccount) {
+        int numSign = Long.signum(this.totalTransactionValue - bankAccount.getTotalTransactionValue());
+
+        switch (numSign) {
+            case 0 -> {
+                return this.accountNo.compareTo(bankAccount.getAccountNo());
+            }
+            case -1 -> {
+                return 1;
+            }
+            case 1 -> {
+                return -1;
+            }
+            default -> {
+                return 0;
+            }
+        }
     }
 }
