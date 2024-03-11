@@ -64,7 +64,7 @@ public class AccountDirectory {
     public void viewBalance(String accountNo) {
         BankAccount bankAccount = searchAccount(accountNo);
         if (bankAccount != null)
-            System.out.println("Balance is " + bankAccount.getBalance());
+            System.out.println("Balance is " + bankAccount.getCurrentBalance());
     }
 
     public void deposit(String accountNo, long depositAmount) {
